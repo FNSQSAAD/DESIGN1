@@ -535,3 +535,164 @@ a.seg{text-decoration:none;color:var(--ink)}
 .prose p+p{margin-top:1rem}
 .prose ul{margin:1rem 0;padding-left:1.2rem}
 .prose li+li{margin-top:.5rem}
+
+/* ==========================================================================
+   21 CONTENT BUILD - components added for the approved copy deck
+   (hero slider, product tiles, founder quote, starting point, value rows)
+   ========================================================================== */
+
+/* 21.1 Hero slider ------------------------------------------------------ */
+.hslider{position:relative;isolation:isolate;background:var(--indigo-night);overflow:hidden}
+.hslide{
+  position:absolute;inset:0;opacity:0;visibility:hidden;
+  transition:opacity .7s var(--ease),visibility 0s .7s
+}
+.hslide[data-on="true"]{opacity:1;visibility:visible;transition:opacity .7s var(--ease),visibility 0s}
+.hslide:first-child{position:relative}
+.hslide-media{position:absolute;inset:0;z-index:-2}
+.hslide-media img{width:100%;height:100%;object-fit:cover;object-position:60% 50%}
+.hslide::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,rgba(20,20,38,.94) 0%,rgba(20,20,38,.84) 40%,rgba(20,20,38,.38) 74%,rgba(20,20,38,.2) 100%)
+}
+.hslide-inner{padding-block:clamp(3rem,7vw,5rem) clamp(4.25rem,7vw,5.5rem);max-width:40rem;color:#fff}
+.hslide h2{color:#fff;font-size:var(--step-4);margin-bottom:.85rem}
+.hslide .sub{font-size:var(--step-1);color:var(--tan-soft);margin-bottom:.9rem;font-weight:500;line-height:1.4}
+.hslide p{color:rgba(255,255,255,.86);max-width:46ch}
+.hslide .btn-row{margin-top:1.6rem}
+.hnav{
+  position:absolute;left:0;right:0;bottom:1.25rem;z-index:6;display:flex;align-items:center;
+  justify-content:center;gap:1rem;pointer-events:none
+}
+.hnav>*{pointer-events:auto}
+.hbtn{
+  width:40px;height:40px;border-radius:50%;border:1px solid rgba(255,255,255,.35);
+  background:rgba(255,255,255,.10);color:#fff;cursor:pointer;
+  display:grid;place-items:center;transition:.18s var(--ease)
+}
+.hbtn:hover{background:#fff;color:var(--indigo-deep);border-color:#fff}
+.hdots{display:flex;gap:.5rem}
+.hdot{width:8px;height:8px;border-radius:50%;border:0;background:rgba(255,255,255,.4);cursor:pointer;padding:0;transition:.25s var(--ease)}
+.hdot[aria-current="true"]{background:var(--tan);width:26px;border-radius:100px}
+@media (max-width:640px){
+  .hnav{justify-content:space-between;padding-inline:var(--pad)}
+  .hslide h2{font-size:var(--step-3)}
+}
+
+/* 21.2 Product tiles ---------------------------------------------------- */
+.tiles{display:grid;grid-template-columns:repeat(3,1fr);gap:clamp(1.1rem,2.2vw,1.6rem)}
+@media (max-width:900px){.tiles{grid-template-columns:1fr}}
+.tile{
+  background:var(--white);border:1px solid var(--line);border-radius:var(--radius-lg);
+  overflow:hidden;display:flex;flex-direction:column;text-decoration:none;
+  transition:transform .25s var(--ease),box-shadow .25s var(--ease),border-color .25s var(--ease)
+}
+.tile:hover{transform:translateY(-4px);box-shadow:var(--shadow);border-color:var(--line-strong)}
+.tile-media{aspect-ratio:16/10;overflow:hidden;background:var(--paper-2)}
+.tile-media img{width:100%;height:100%;object-fit:cover;transition:transform .6s var(--ease)}
+.tile:hover .tile-media img{transform:scale(1.05)}
+.tile-body{padding:1.5rem;display:flex;flex-direction:column;flex:1;gap:.75rem}
+.tile-body h3{font-size:var(--step-2)}
+.tile-tags{display:flex;flex-wrap:wrap;gap:.4rem .9rem;font-size:.86rem;color:var(--ink-soft)}
+.tile-tags span{display:inline-flex;align-items:center;gap:.55rem}
+.tile-tags span+span::before{content:"";width:3px;height:3px;border-radius:50%;background:var(--tan);display:block}
+.tile-body .arrowlink{margin-top:auto;padding-top:.5rem}
+
+/* 21.3 Founder quote ---------------------------------------------------- */
+.founder{
+  display:grid;grid-template-columns:auto 1fr;gap:clamp(1.5rem,4vw,3rem);align-items:center;
+  background:var(--white);border:1px solid var(--line);border-left:4px solid var(--tan);
+  border-radius:var(--radius-lg);padding:clamp(1.6rem,4vw,2.75rem)
+}
+.founder img{width:130px;height:130px;border-radius:50%;object-fit:cover;object-position:50% 20%;flex:none}
+.founder blockquote{margin:0;font-family:var(--serif);font-size:var(--step-2);line-height:1.32;color:var(--ink)}
+.founder .who{margin-top:1.1rem;font-size:.9rem;color:var(--ink-soft)}
+.founder .who b{display:block;color:var(--ink);font-family:var(--sans);font-size:1rem}
+.founder .who .lic{display:block;font-size:.8rem;color:var(--muted);margin-top:.3rem}
+@media (max-width:680px){.founder{grid-template-columns:1fr;text-align:center;justify-items:center}.founder img{width:96px;height:96px}}
+
+/* 21.4 Starting point --------------------------------------------------- */
+.starter{
+  background:var(--indigo-night);color:#fff;border-radius:var(--radius-lg);
+  padding:clamp(1.75rem,4vw,3rem);position:relative;isolation:isolate;overflow:hidden
+}
+.starter::after{
+  content:"";position:absolute;right:-12%;top:-45%;width:46%;aspect-ratio:1;border-radius:50%;z-index:-1;
+  background:radial-gradient(closest-side,rgba(176,136,95,.35),transparent)
+}
+.starter h2{color:#fff;max-width:24ch}
+.starter .meta{font-size:.82rem;color:rgba(255,255,255,.62);margin-top:.85rem;letter-spacing:.02em}
+.starter .qlabel{
+  display:block;font-size:.74rem;letter-spacing:.16em;text-transform:uppercase;font-weight:700;
+  color:var(--tan-soft);margin:1.75rem 0 .9rem
+}
+.starter-opts{display:grid;grid-template-columns:repeat(2,1fr);gap:.7rem}
+@media (max-width:620px){.starter-opts{grid-template-columns:1fr}}
+.sopt{
+  display:flex;align-items:center;gap:.8rem;text-align:left;width:100%;cursor:pointer;
+  background:rgba(255,255,255,.07);border:1px solid rgba(255,255,255,.2);color:#fff;
+  border-radius:var(--radius);padding:.95rem 1.1rem;font-weight:600;font-size:.95rem;
+  transition:.18s var(--ease)
+}
+.sopt:hover{background:rgba(255,255,255,.14);border-color:rgba(255,255,255,.45);transform:translateY(-1px)}
+.sopt[aria-checked="true"]{background:var(--tan);border-color:var(--tan);color:#fff}
+.sopt .tick{width:18px;height:18px;border-radius:50%;border:1.5px solid rgba(255,255,255,.5);flex:none;display:grid;place-items:center}
+.sopt[aria-checked="true"] .tick{background:#fff;border-color:#fff;color:var(--tan)}
+.sopt .tick svg{opacity:0;transition:.15s var(--ease)}
+.sopt[aria-checked="true"] .tick svg{opacity:1}
+.starter .go{margin-top:1.5rem;display:flex;flex-wrap:wrap;gap:.85rem;align-items:center}
+.starter .disc{font-size:.78rem;color:rgba(255,255,255,.6);line-height:1.6;margin-top:1.25rem;max-width:74ch}
+
+/* 21.5 Value rows ------------------------------------------------------- */
+.vrows{border-top:1px solid var(--line)}
+.vrow{
+  display:grid;grid-template-columns:minmax(0,.85fr) minmax(0,1.15fr);gap:clamp(1.25rem,4vw,3rem);
+  padding-block:clamp(1.5rem,3vw,2.25rem);border-bottom:1px solid var(--line);align-items:start
+}
+.vrow h3{font-size:var(--step-1)}
+.vrow p{font-size:.96rem}
+.vrow p+p{margin-top:.8rem}
+@media (max-width:760px){.vrow{grid-template-columns:1fr;gap:.5rem}}
+
+/* 21.6 Checked bullet list ---------------------------------------------- */
+.blist{list-style:none;padding:0;margin:1.1rem 0 0;display:grid;gap:.7rem}
+.blist li{display:grid;grid-template-columns:auto 1fr;gap:.75rem;align-items:start;font-size:.96rem}
+.blist .b{
+  width:18px;height:18px;border-radius:50%;background:var(--tan-soft);color:var(--tan);
+  display:grid;place-items:center;flex:none;margin-top:.3rem
+}
+.blist--2{grid-template-columns:1fr 1fr;column-gap:2.25rem}
+@media (max-width:700px){.blist--2{grid-template-columns:1fr}}
+
+/* 21.7 Trust line ------------------------------------------------------- */
+.trustline{
+  display:flex;flex-wrap:wrap;gap:.6rem 1.5rem;align-items:center;
+  font-size:.84rem;color:var(--muted);margin-top:1.25rem
+}
+.trustline span{display:inline-flex;align-items:center;gap:.6rem}
+.trustline span+span::before{content:"";width:4px;height:4px;border-radius:50%;background:var(--tan);display:block}
+.trustline--dark{color:rgba(255,255,255,.72)}
+
+/* 21.8 Page hero with photograph ---------------------------------------- */
+.phero{position:relative;isolation:isolate;background:var(--indigo-night);color:#fff;overflow:hidden}
+.phero-media{position:absolute;inset:0;z-index:-2}
+.phero-media img{width:100%;height:100%;object-fit:cover;object-position:60% 45%}
+.phero::after{
+  content:"";position:absolute;inset:0;z-index:-1;
+  background:linear-gradient(100deg,rgba(20,20,38,.95) 0%,rgba(20,20,38,.86) 42%,rgba(20,20,38,.42) 76%,rgba(20,20,38,.24) 100%)
+}
+.phero-inner{padding-block:clamp(2.75rem,6vw,4.5rem);max-width:46rem}
+.phero h1{color:#fff;font-size:var(--step-4);margin-bottom:1rem}
+.phero .sub{font-size:var(--step-1);color:var(--tan-soft);font-weight:500;margin-bottom:.7rem;line-height:1.4}
+.phero .oneliner{
+  display:flex;flex-wrap:wrap;gap:.5rem 1.1rem;font-size:.8rem;letter-spacing:.06em;
+  text-transform:uppercase;color:rgba(255,255,255,.72);font-weight:600;margin-bottom:1.5rem
+}
+.phero p{color:rgba(255,255,255,.85);max-width:62ch}
+.phero p+p{margin-top:.9rem}
+.phero .btn-row{margin-top:1.9rem}
+
+/* 21.9 Legal block ------------------------------------------------------ */
+.legalblock{font-size:.78rem;line-height:1.7;color:rgba(255,255,255,.52)}
+.legalblock p+p{margin-top:.85rem}
+.legalblock strong{color:rgba(255,255,255,.78)}

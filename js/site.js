@@ -496,9 +496,115 @@
     });
   }
 
+  /* --------------------------------------------------------------- 9 */
+  // Hero slider: crossfading full-bleed slides with dots, arrows, autoplay,
+  // swipe and keyboard. Pauses on hover/focus and honours reduced motion.
+  function heroSlider() {
+    var root = $('#hslider');
+    if (!root) return;
+    var slides = $$('.hslide', root);
+    var dotsWrap = $('.hdots', root);
+    var prev = $('[data-hprev]', root), next = $('[data-hnext]', root);
+    if (slides.length < 2) return;
+    var i = 0, timer = null;
+
+    var dots = slides.map(function (s, n) {
+      var b = document.createElement('button');
+      b.className = 'hdot';
+      b.type = 'button';
+      b.setAttribute('aria-label', (s.dataset.label || ('Slide ' + (n + 1))));
+      b.addEventListener('click', function () { go(n); restart(); });
+      if (dotsWrap) dotsWrap.appendChild(b);
+      return b;
+    });
+
+    function go(n) {
+      i = (n + slides.length) % slides.length;
+      slides.forEach(function (s, k) {
+        s.setAttribute('data-on', String(k === i));
+        s.setAttribute('aria-hidden', String(k !== i));
+        $$('a,button', s).forEach(function (el) {
+          if (k === i) el.removeAttribute('tabindex'); else el.setAttribute('tabindex', '-1');
+        });
+      });
+      dots.forEach(function (d, k) { d.setAttribute('aria-current', String(k === i)); });
+    }
+    function start() {
+      if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+      timer = setInterval(function () { go(i + 1); }, 8000);
+    }
+    function stop() { if (timer) { clearInterval(timer); timer = null; } }
+    function restart() { stop(); start(); }
+
+    if (prev) prev.addEventListener('click', function () { go(i - 1); restart(); });
+    if (next) next.addEventListener('click', function () { go(i + 1); restart(); });
+    root.addEventListener('mouseenter', stop);
+    root.addEventListener('mouseleave', start);
+    root.addEventListener('focusin', stop);
+    root.addEventListener('keydown', function (e) {
+      if (e.key === 'ArrowLeft') { go(i - 1); restart(); }
+      if (e.key === 'ArrowRight') { go(i + 1); restart(); }
+    });
+    var x0 = null;
+    root.addEventListener('touchstart', function (e) { x0 = e.touches[0].clientX; stop(); }, { passive: true });
+    root.addEventListener('touchend', function (e) {
+      if (x0 === null) return;
+      var dx = e.changedTouches[0].clientX - x0;
+      if (Math.abs(dx) > 45) go(i + (dx < 0 ? 1 : -1));
+      x0 = null; start();
+    });
+
+    go(0); start();
+  }
+
+  /* -------------------------------------------------------------- 10 */
+  // "Find your starting point": pick one goal, then carry it to the
+  // booking form as ?goal= so the visitor does not answer twice.
+  function starter() {
+    var root = $('#starter');
+    if (!root) return;
+    var opts = $$('.sopt', root);
+    var cta = $('[data-starter-go]', root);
+    var chosen = null;
+
+    opts.forEach(function (o, n) {
+      o.addEventListener('click', function () {
+        opts.forEach(function (x) { x.setAttribute('aria-checked', 'false'); });
+        o.setAttribute('aria-checked', 'true');
+        chosen = o.dataset.goal;
+        if (cta) {
+          cta.removeAttribute('aria-disabled');
+          cta.href = 'contact.html?goal=' + encodeURIComponent(chosen) + '#book';
+        }
+      });
+      o.addEventListener('keydown', function (e) {
+        var d = e.key === 'ArrowDown' || e.key === 'ArrowRight' ? 1
+          : e.key === 'ArrowUp' || e.key === 'ArrowLeft' ? -1 : 0;
+        if (!d) return;
+        e.preventDefault();
+        var t = opts[(n + d + opts.length) % opts.length];
+        t.focus(); t.click();
+      });
+    });
+  }
+
+  /* -------------------------------------------------------------- 11 */
+  // Preselect the booking form's goal from ?goal= set by the starter.
+  function prefillGoal() {
+    var sel = $('#goal');
+    if (!sel || !window.location.search) return;
+    var m = /[?&]goal=([^&]+)/.exec(window.location.search);
+    if (!m) return;
+    var want = decodeURIComponent(m[1]).toLowerCase();
+    $$('option', sel).forEach(function (o) {
+      if (o.value && o.value.toLowerCase() === want) sel.value = o.value;
+    });
+  }
+
   /* ---------------------------------------------------------------- go */
   function init() {
-    header(); reveal(); moneyInputs(); calculators(); heroMini(); slider(); forms(); mobilebar();
+    header(); reveal(); moneyInputs(); calculators(); heroMini(); slider();
+    heroSlider(); starter(); forms(); prefillGoal(); mobilebar();
     var y = $('#year'); if (y) y.textContent = new Date().getFullYear();
   }
   if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init);
