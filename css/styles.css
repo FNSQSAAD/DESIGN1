@@ -543,11 +543,16 @@ a.seg{text-decoration:none;color:var(--ink)}
 
 /* 21.1 Hero slider ------------------------------------------------------ */
 .hslider{position:relative;isolation:isolate;background:var(--indigo-night);overflow:hidden}
+/* The outgoing slide clears before the incoming one arrives, so the two
+   sets of headline copy never overlap mid-crossfade. */
 .hslide{
   position:absolute;inset:0;opacity:0;visibility:hidden;
-  transition:opacity .7s var(--ease),visibility 0s .7s
+  transition:opacity .28s var(--ease),visibility 0s .28s
 }
-.hslide[data-on="true"]{opacity:1;visibility:visible;transition:opacity .7s var(--ease),visibility 0s}
+.hslide[data-on="true"]{
+  opacity:1;visibility:visible;
+  transition:opacity .45s var(--ease) .28s,visibility 0s
+}
 .hslide:first-child{position:relative}
 .hslide-media{position:absolute;inset:0;z-index:-2}
 .hslide-media img{width:100%;height:100%;object-fit:cover;object-position:60% 50%}
