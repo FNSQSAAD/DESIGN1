@@ -701,3 +701,61 @@ a.seg{text-decoration:none;color:var(--ink)}
 .legalblock{font-size:.78rem;line-height:1.7;color:rgba(255,255,255,.52)}
 .legalblock p+p{margin-top:.85rem}
 .legalblock strong{color:rgba(255,255,255,.78)}
+
+/* 22 Panorama blocks ----------------------------------------------------- */
+/* Navy/gold "Advisory" section treatment ported from the Panorama build.
+   Scoped to .pn so the rest of Concept 1 keeps its own palette. */
+.pn{
+  --pn-navy:#132644;
+  --pn-gold:#a87c2e;
+  --pn-cream:#f5efe3;
+  --pn-cream-tx:#f4eee0;
+  --pn-cream-tx-dim:rgba(244,238,224,.75);
+  --pn-ink:#1d2434;
+  --pn-ink-dim:rgba(29,36,52,.7);
+  --pn-ink-faint:rgba(29,36,52,.45);
+  --pn-line:rgba(29,36,52,.14);
+  --pn-line-cream:rgba(244,238,224,.22);
+  --pn-serif:"Roboto",system-ui,sans-serif;
+  --pn-sans:"Poppins",system-ui,sans-serif;
+  font-family:var(--pn-sans);
+  color:var(--pn-ink);
+}
+.pn h2,.pn h3{font-family:var(--pn-serif);font-weight:700;line-height:1.16;letter-spacing:-.015em;color:var(--pn-navy)}
+.pn h2{font-size:clamp(1.9rem,3.2vw,2.6rem)}
+.pn p{color:var(--pn-ink-dim);line-height:1.75}
+.pn-eyebrow{font-weight:600;font-size:.72rem;letter-spacing:.22em;text-transform:uppercase;color:var(--pn-gold);display:inline-flex;align-items:center;gap:14px}
+.pn-eyebrow::before{content:"";width:34px;height:1px;background:var(--pn-gold)}
+.pn-btn{display:inline-block;text-decoration:none;background:var(--pn-navy);color:var(--pn-cream-tx);font-family:var(--pn-sans);font-weight:600;font-size:.9rem;letter-spacing:.01em;padding:17px 30px;border-top:2px solid transparent;transition:background .3s ease,border-color .3s ease}
+.pn-btn:hover{background:#0e1c33;border-top-color:var(--pn-gold)}
+
+/* 22.1 Split block (image + numbered rows) ------------------------------- */
+.pn-split{background:var(--pn-cream);border-top:1px solid var(--pn-line);border-bottom:1px solid var(--pn-line)}
+.pn-split-grid{display:grid;grid-template-columns:.9fr 1.1fr;gap:6vw;align-items:center}
+.pn-photo{position:relative}
+.pn-photo img{width:100%;aspect-ratio:1/1;object-fit:cover;box-shadow:0 40px 80px -30px rgba(19,38,68,.35)}
+.pn-photo::after{content:"";position:absolute;left:0;right:0;top:0;height:4px;background:var(--pn-gold)}
+.pn-list{list-style:none;margin-top:26px;padding:0}
+.pn-list li{display:flex;gap:16px;padding:14px 0;border-top:1px solid var(--pn-line);font-size:.95rem;color:var(--pn-ink-dim);align-items:baseline}
+.pn-list li:last-child{border-bottom:1px solid var(--pn-line)}
+.pn-list .n{color:var(--pn-gold);font-family:var(--pn-serif);font-style:italic;flex-shrink:0}
+.pn-note{margin-top:22px;font-size:.8rem;color:var(--pn-ink-faint)}
+
+/* 22.2 Two-tone card (white copy panel + navy list panel) ---------------- */
+.pn-band{background:var(--pn-cream)}
+.pn-card{background:#fff;box-shadow:0 30px 70px -30px rgba(19,38,68,.25);display:grid;grid-template-columns:1.1fr .9fr}
+.pn-card-in{padding:clamp(30px,4vw,54px);border-right:1px solid var(--pn-line)}
+.pn-card-in .prose p+p{margin-top:1.1rem}
+.pn-card-out{padding:clamp(30px,4vw,54px);background:var(--pn-navy);color:var(--pn-cream-tx);display:flex;flex-direction:column;justify-content:center}
+.pn-card-out .ok{font-size:.7rem;font-weight:600;letter-spacing:.2em;text-transform:uppercase;color:var(--pn-gold)}
+.pn-card-out h3{font-family:var(--pn-serif);font-weight:700;font-size:clamp(1.4rem,2.4vw,1.9rem);color:var(--pn-cream-tx);margin:14px 0 10px}
+.pn-rows{list-style:none;margin:16px 0 0;padding:0;border-top:1px solid var(--pn-line-cream)}
+.pn-rows li{display:flex;gap:16px;align-items:baseline;padding:13px 0;border-bottom:1px solid var(--pn-line-cream);font-size:.88rem;color:var(--pn-cream-tx-dim)}
+.pn-rows .n{font-family:var(--pn-serif);font-weight:700;font-size:.78rem;color:var(--pn-gold);flex-shrink:0}
+
+@media(max-width:900px){
+  .pn-split-grid{grid-template-columns:1fr;gap:44px}
+  .pn-photo{order:-1}
+  .pn-card{grid-template-columns:1fr}
+  .pn-card-in{border-right:none;border-bottom:1px solid var(--pn-line)}
+}
